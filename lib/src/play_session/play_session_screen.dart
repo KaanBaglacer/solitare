@@ -9,13 +9,9 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
 
-import '../ads/ads_controller.dart';
-import '../audio/audio_controller.dart';
-import '../audio/sounds.dart';
 import '../game_internals/level_state.dart';
 import '../games_services/games_services.dart';
 import '../games_services/score.dart';
-import '../in_app_purchase/in_app_purchase.dart';
 import '../level_selection/levels.dart';
 import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
@@ -132,11 +128,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     _startOfPlay = DateTime.now();
 
     // Preload ad for the win screen.
-    final adsRemoved = context.read<InAppPurchaseController?>()?.adRemoval.active ?? false;
-    if (!adsRemoved) {
-      final adsController = context.read<AdsController?>();
-      adsController?.preloadAd();
-    }
   }
 
   Future<void> _playerWon() async {
@@ -158,9 +149,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     setState(() {
       _duringCelebration = true;
     });
-
-    final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.congrats);
 
     final gamesServicesController = context.read<GamesServicesController?>();
     if (gamesServicesController != null) {

@@ -23,11 +23,14 @@ class ResponsiveScreen extends StatelessWidget {
   /// elements.
   final double mainAreaProminence;
 
+  final double subAreaProminence;
+
   const ResponsiveScreen({
     required this.squarishMainArea,
     required this.rectangularMenuArea,
     this.topMessageArea = const SizedBox.shrink(),
     this.mainAreaProminence = 0.8,
+    this.subAreaProminence = 0.2,
     super.key,
   });
 
@@ -60,12 +63,15 @@ class ResponsiveScreen extends StatelessWidget {
                   child: squarishMainArea,
                 ),
               ),
-              SafeArea(
-                top: false,
-                maintainBottomViewPadding: true,
-                child: Padding(
-                  padding: padding,
-                  child: rectangularMenuArea,
+              Expanded(
+                flex: (subAreaProminence * 100).round(),
+                child: SafeArea(
+                  top: false,
+                  maintainBottomViewPadding: true,
+                  child: Padding(
+                    padding: padding,
+                    child: rectangularMenuArea,
+                  ),
                 ),
               ),
             ],

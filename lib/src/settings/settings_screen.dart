@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../in_app_purchase/in_app_purchase.dart';
 import '../player_progress/player_progress.dart';
 import '../style/palette.dart';
 import '../style/responsive_screen.dart';
@@ -42,49 +41,6 @@ class SettingsScreen extends StatelessWidget {
             const _NameChangeLine(
               'Name',
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: settings.soundsOn,
-              builder: (context, soundsOn, child) => _SettingsLine(
-                'Sound FX',
-                Icon(soundsOn ? Icons.graphic_eq : Icons.volume_off),
-                onSelected: () => settings.toggleSoundsOn(),
-              ),
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: settings.musicOn,
-              builder: (context, musicOn, child) => _SettingsLine(
-                'Music',
-                Icon(musicOn ? Icons.music_note : Icons.music_off),
-                onSelected: () => settings.toggleMusicOn(),
-              ),
-            ),
-            Consumer<InAppPurchaseController?>(
-                builder: (context, inAppPurchase, child) {
-              if (inAppPurchase == null) {
-                // In-app purchases are not supported yet.
-                // Go to lib/main.dart and uncomment the lines that create
-                // the InAppPurchaseController.
-                return const SizedBox.shrink();
-              }
-
-              Widget icon;
-              VoidCallback? callback;
-              if (inAppPurchase.adRemoval.active) {
-                icon = const Icon(Icons.check);
-              } else if (inAppPurchase.adRemoval.pending) {
-                icon = const CircularProgressIndicator();
-              } else {
-                icon = const Icon(Icons.ad_units);
-                callback = () {
-                  inAppPurchase.buy();
-                };
-              }
-              return _SettingsLine(
-                'Remove ads',
-                icon,
-                onSelected: callback,
-              );
-            }),
             _SettingsLine(
               'Reset progress',
               const Icon(Icons.delete),
@@ -93,8 +49,7 @@ class SettingsScreen extends StatelessWidget {
 
                 final messenger = ScaffoldMessenger.of(context);
                 messenger.showSnackBar(
-                  const SnackBar(
-                      content: Text('Player progress has been reset.')),
+                  const SnackBar(content: Text('Player progress has been reset.')),
                 );
               },
             ),

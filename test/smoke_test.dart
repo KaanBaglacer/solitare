@@ -13,9 +13,7 @@ void main() {
     await tester.pumpWidget(MyApp(
       settingsPersistence: MemoryOnlySettingsPersistence(),
       playerProgressPersistence: MemoryOnlyPlayerProgressPersistence(),
-      adsController: null,
       gamesServicesController: null,
-      inAppPurchaseController: null,
     ));
 
     // Verify that the 'Play' button is shown.
